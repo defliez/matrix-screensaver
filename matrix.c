@@ -10,11 +10,13 @@ int main() {
     init_pair(1, COLOR_BLACK, COLOR_GREEN);
     attron(COLOR_PAIR(1));
 
-    int randomNum;
+    int randomNum, randomX, randomY;
 
     while (TRUE) {
         randomNum = rand() % 10;
-        printw("%d\n", randomNum);
+        randomX = rand() % 10;
+        randomY = rand() % 10;
+        mvprintw(randomX, randomY, "%d\n", randomNum);
         refresh();
 
         usleep(100000);
