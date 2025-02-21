@@ -1,9 +1,11 @@
 #include <ncurses.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 pthread_mutex_t lock;
+int screenFilledThreads;
 
 void* printRandomNumber(void* arg) {
     int xCoord = *(int*)arg;
@@ -30,12 +32,27 @@ void* printRandomNumber(void* arg) {
 
         if (y >= height) {
             y = 0;
+            screenFilledThreads++;
         }
     }
     return NULL;
 }
 
+
+
+void* printWakeUp() {
+    int height, width;
+    getmaxyx(stdscr, height, width);
+    int centerY = height / 2;
+    int centerX = width / 2 - (strlen("WAKE UP") / 2);
+
+    mvprintw(centerY, centerX, "WAKE UP");
+    return NULL;
+}
+
 int main() {
+    screenFilledThreads = 0;
+
     initscr();
     noecho();
     curs_set(0);
@@ -54,12 +71,14 @@ int main() {
         pthread_create(&threads[i], NULL, printRandomNumber, (void*)xCoord);
     }
 
-    // for (int i = 0; i < 140; i++) {
-    //     pthread_join(threads[i], NULL);
-    // }
+    pthread_t threadWakeUp;
 
     while (1) {
         usleep(100000);
+
+        if (screenFilledThreads >= 140) {
+            pthread_create(&threadWakeUp, NULL, printWakeUp, NULL);
+        }
     }
 
     pthread_exit(NULL);
