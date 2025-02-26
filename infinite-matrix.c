@@ -82,7 +82,7 @@ int main() {
     attron(A_BOLD);
 
     int width = getmaxx(stdscr);
-    int maxThreads = 100;
+    int maxThreads = 150;
     int threadCnt = width / 2;
     if (threadCnt > maxThreads) {
         threadCnt = maxThreads;
