@@ -82,11 +82,15 @@ int main() {
     attron(A_BOLD);
 
     int width = getmaxx(stdscr);
-    int threadCnt = width / 3;
+    int maxThreads = 100;
+    int threadCnt = width / 2;
+    if (threadCnt > maxThreads) {
+        threadCnt = maxThreads;
+    }
 
     pthread_t threads[threadCnt];
 
-    for (int i = 0; i <= threadCnt; i++) {
+    for (int i = 0; i < threadCnt; i++) {
         int* xCoord = malloc(sizeof(int));
         *xCoord = i * 3;
         pthread_create(&threads[i], NULL, printRandomNumber, (void*)xCoord);
@@ -101,6 +105,9 @@ int main() {
     //     }
     // }
 
+    for (int i = 0; i < threadCnt; i++) {
+        pthread_join(threads[i], NULL);
+    }
     pthread_exit(NULL);
     pthread_mutex_destroy(&lock);
 
