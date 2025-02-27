@@ -64,14 +64,28 @@ int main() {
     attron(COLOR_PAIR(1));
     attron(A_BOLD);
 
-    int width = getmaxx(stdscr);
-    int threadCnt = width / 3;
+    sleep(1);
+
+    int width, height;
+
+    int max_attempts = 50;
+    for (int i = 0; i < max_attempts; i++) {
+        clear();
+        refresh();
+        getmaxyx(stdscr, height, width);
+        if (width > 80) {
+            break;
+        }
+        usleep(100000);
+    }
+
+    int threadCnt = width / 2;
 
     pthread_t threads[threadCnt];
 
-    for (int i = 0; i <= threadCnt; i++) {
+    for (int i = 0; i < threadCnt; i++) {
         int* xCoord = malloc(sizeof(int));
-        *xCoord = i * 3;
+        *xCoord = i * 2;
         pthread_create(&threads[i], NULL, printRandomNumber, (void*)xCoord);
     }
 

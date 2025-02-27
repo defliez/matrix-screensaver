@@ -2,7 +2,6 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
-#include <threads.h>
 #include <unistd.h>
 
 pthread_mutex_t lock;
@@ -81,29 +80,32 @@ int main() {
     attron(COLOR_PAIR(1));
     attron(A_BOLD);
 
-    int width = getmaxx(stdscr);
-    int maxThreads = 150;
-    int threadCnt = width / 2;
-    if (threadCnt > maxThreads) {
-        threadCnt = maxThreads;
+    int width, height;
+
+    int max_attempts = 50;
+    for (int i = 0; i < max_attempts; i++) {
+        clear();
+        refresh();
+        getmaxyx(stdscr, height, width);
+        if (width > 80) {
+            break;
+        }
+        usleep(100000);
     }
+
+    // int maxThreads = 150;
+    int threadCnt = width / 2;
+    // if (threadCnt > maxThreads) {
+    //     threadCnt = maxThreads;
+    // }
 
     pthread_t threads[threadCnt];
 
-    for (int i = 0; i < threadCnt; i++) {
+    for (int i = 0; i <= threadCnt; i++) {
         int* xCoord = malloc(sizeof(int));
         *xCoord = i * 3;
         pthread_create(&threads[i], NULL, printRandomNumber, (void*)xCoord);
     }
-
-    // pthread_t threadWakeUp;
-    //
-    // while (1) {
-    //     usleep(100000);
-    //     if (screenFilledThreads >= threadCnt - 1) {
-    //         pthread_create(&threadWakeUp, NULL, printWakeUp, NULL);
-    //     }
-    // }
 
     for (int i = 0; i < threadCnt; i++) {
         pthread_join(threads[i], NULL);
