@@ -5,13 +5,14 @@ This is a project built in C, featuring two variations of matrix-themed screensa
 The programs leverage ncurses, a C library that allows for creating and rendering terminal windows, as well as the Ghostty terminal which has features to open a terminal window in fullscreen with a transparent background. This can also be done with the use of other terminals. To turn it into a screensaver, this project uses hyprland and hypridle, although it is possible to use other environments and idle daemons.
 
 ### Previews
-##### "WAKE UP"
-
-https://github.com/user-attachments/assets/588a515d-2754-493f-bfb9-e687a730bafb
 
 ##### Infinite
 
 https://github.com/user-attachments/assets/7eb8f512-609f-4a82-be59-f78c47782056
+
+##### "WAKE UP"
+
+https://github.com/user-attachments/assets/588a515d-2754-493f-bfb9-e687a730bafb
 
 ---
 
