@@ -69,6 +69,7 @@ void* printWakeUp(void* arg) {
 int main() {
     screenFilledThreads = 0;
 
+    usleep(100000);
     initscr();
     noecho();
     curs_set(0);
